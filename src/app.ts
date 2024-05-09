@@ -1,6 +1,7 @@
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import { env } from './env/index.js'
+import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 import { usersRoutes } from './http/controllers/users/routes.js'
@@ -17,6 +18,8 @@ app.register(fastifyJwt, {
         expiresIn: '10m'
     }
 })
+
+app.register(cors)
 
 app.register(fastifyCookie)
 
