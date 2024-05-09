@@ -19,7 +19,9 @@ app.register(fastifyJwt, {
     }
 })
 
-app.register(cors)
+app.register(cors, {
+    credentials: true
+})
 
 app.register(fastifyCookie)
 
