@@ -10,9 +10,19 @@ import { flowRoutes } from './http/controllers/flow/routes'
 export const app = fastify()
 
 app.register(cors, {
-    origin: ['*'],
+    origin: ['http://localhost:5173'],
     credentials: true,
-    allowedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials']
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'Access-Control-Allow-Credentials',
+        'Access-Control-Allow-Origin'
+    ],
+    exposedHeaders: [
+        'Access-Control-Allow-Credentials',
+        'Access-Control-Allow-Origin'
+    ]
 })
 
 app.register(fastifyJwt, {
