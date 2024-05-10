@@ -28,3 +28,21 @@ Content-Type: application/json
 GET {{baseUrl}}/me
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name insert_flow
+POST {{baseUrl}}/flow
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "filePath": "data/flow_data_together.json"
+}
+
+###
+
+# @name fetch_flow_by_period
+GET {{baseUrl}}/flow
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

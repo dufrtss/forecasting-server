@@ -19,3 +19,13 @@ model User {
 
   @@map("users")
 }
+
+model Flow {
+  id                 Int      @id @default(autoincrement())
+  value              Float
+  date               DateTime
+  confidenceInterval Float[]  @map("confidence_interval")
+  isForecasting      Boolean  @default(false) @map("is_forecasting")
+
+  @@map("flow")
+}

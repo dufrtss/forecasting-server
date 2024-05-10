@@ -1,10 +1,11 @@
 import fastify from 'fastify'
 import { ZodError } from 'zod'
-import { env } from './env/index.js'
+import { env } from './env/index'
 import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
-import { usersRoutes } from './http/controllers/users/routes.js'
+import { usersRoutes } from './http/controllers/users/routes'
+import { flowRoutes } from './http/controllers/flow/routes'
 
 export const app = fastify()
 
@@ -26,6 +27,7 @@ app.register(cors, {
 app.register(fastifyCookie)
 
 app.register(usersRoutes)
+app.register(flowRoutes)
 
 app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {
