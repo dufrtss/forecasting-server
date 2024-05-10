@@ -21,6 +21,7 @@ app.register(fastifyJwt, {
 })
 
 app.register(cors, {
+    origin: '*',
     credentials: true
 })
 
