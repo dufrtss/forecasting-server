@@ -3,14 +3,13 @@ import { FlowRepository } from '../flow-repository'
 import { prisma } from '@/lib/prisma'
 
 export class PrismaFlowRepository implements FlowRepository {
-    async fetchByPeriod(startDate: Date, endDate: Date, isForecasting?: boolean) {
+    async fetchByPeriod(from: Date, to: Date) {
         const flow = await prisma.flow.findMany({
             where: {
                 date: {
-                    gte: startDate,
-                    lte: endDate
-                },
-                isForecasting
+                    gte: from,
+                    lte: to
+                }
             }
         })
 

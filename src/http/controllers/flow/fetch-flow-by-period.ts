@@ -4,24 +4,28 @@ import { z } from 'zod'
 
 export async function fetchFlowByPeriod(request: FastifyRequest, reply: FastifyReply) {
     const fetchFlowByPeriodBodySchema = z.object({
-        startDate: z.date().optional(),
-        endDate: z.date().optional(),
-        isForecasting: z.boolean().optional()
+        from: z.date().optional(),
+        to: z.date().optional()
     }).default({
-        startDate: new Date(new Date().getTime() - (14 * 24 * 60 * 60 * 1000)),
-        endDate: new Date()
+        from: new Date('2024-04-08T03:00:00.000Z'),
+        to: new Date('2024-04-15T03:00:00.000Z')
     })
 
-    const { startDate, endDate, isForecasting } = fetchFlowByPeriodBodySchema.parse(request.body)
+    const normalizedParams = {
+        from: new Date(request.query['range[from]']),
+        to: new Date(request.query['range[to]'])
+    }    
 
-    if (!startDate || !endDate) {
+    const { from, to } = fetchFlowByPeriodBodySchema.parse(normalizedParams)
+
+    if (!from || !to) {
         return null
     }
 
     try {
         const fetchFlowByPeriod = makeFetchFlowByPeriod()
         const flow = await fetchFlowByPeriod.execute({
-            startDate, endDate, isForecasting
+            from, to
         })
 
         return flow
