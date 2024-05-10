@@ -16,6 +16,8 @@ describe('Authenticate (e2e)', () => {
             .post('/users')
             .send({
                 name: 'John Doe',
+                company: 'SATC',
+                number: '+55(48)99882-9292',
                 email: 'johndoe@example.com',
                 password: '123456'
             })

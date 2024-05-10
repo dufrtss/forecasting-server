@@ -6,17 +6,19 @@ import { makeRegisterUseCase } from '@/use-cases/users/factories/make-register-u
 export async function register(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
         name: z.string(),
+        company: z.string(),
+        number: z.string(),
         email: z.string().email(),
         password: z.string().min(6)
     })
 
-    const { name, email, password } = registerBodySchema.parse(request.body)
+    const { name, company, number, email, password } = registerBodySchema.parse(request.body)
 
     try {
         const registerUseCase = makeRegisterUseCase()
 
         await registerUseCase.execute({
-            name, email, password
+            name, company, number, email, password
         })
     } catch (err) {
         if (err instanceof UserAlreadyExistsError) {

@@ -29,6 +29,8 @@ export class InMemoryUsersRepository implements UsersRepository {
         const user = {
             id: randomUUID(),
             name: data.name,
+            company: 'SATC',
+            number: '+55(48)99882-9292',
             email: data.email,
             password: data.password,
             created_at: new Date()
