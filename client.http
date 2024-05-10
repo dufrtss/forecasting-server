@@ -7,6 +7,8 @@ Content-Type: application/json
 
 {
   "name": "Eduardo",
+  "company": "SATC",
+  "number": "+55(48)99882-9292",
   "email": "eduardo@gmail.com",
   "password": "123456"
 }
