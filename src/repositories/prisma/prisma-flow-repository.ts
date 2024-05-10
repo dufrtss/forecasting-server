@@ -22,17 +22,15 @@ export class PrismaFlowRepository implements FlowRepository {
         const flowData = JSON.parse(jsonData)
 
         for (const flow of flowData) {
-            if (flow.date > '2023-06-09T08:55:00.000Z') {
-                if(flow.flow !== 'NaN') {
-                    await prisma.flow.create({
-                        data: {
-                            value: parseFloat(flow.flow),
-                            date: flow.date,
-                            confidenceInterval: flow.confidenceInterval,
-                            isForecasting: flow.isForecasting
-                        }
-                    })
-                }
+            if(flow.flow !== 'NaN') {
+                await prisma.flow.create({
+                    data: {
+                        value: parseFloat(flow.flow),
+                        date: flow.date,
+                        confidenceInterval: flow.confidenceInterval,
+                        isForecasting: flow.isForecasting
+                    }
+                })
             }
         }
     }
