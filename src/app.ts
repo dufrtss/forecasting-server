@@ -9,6 +9,12 @@ import { flowRoutes } from './http/controllers/flow/routes'
 
 export const app = fastify()
 
+app.register(cors, {
+    origin: ['*'],
+    credentials: true,
+    allowedHeaders: ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials']
+})
+
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET,
     cookie: {
@@ -18,11 +24,6 @@ app.register(fastifyJwt, {
     sign: {
         expiresIn: '10m'
     }
-})
-
-app.register(cors, {
-    origin: '*',
-    credentials: true
 })
 
 app.register(fastifyCookie)
