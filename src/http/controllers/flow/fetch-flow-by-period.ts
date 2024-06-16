@@ -2,36 +2,45 @@ import { makeFetchFlowByPeriod } from '@/use-cases/flow/factories/make-fetch-flo
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
+interface RequestQueryType {
+    rangeFrom: number
+    rangeTo: number
+}
+
 export async function fetchFlowByPeriod(request: FastifyRequest, reply: FastifyReply) {
     const fetchFlowByPeriodBodySchema = z.object({
-        from: z.date().optional(),
-        to: z.date().optional()
-    }).default({
-        from: new Date('2024-04-08T03:00:00.000Z'),
-        to: new Date('2024-04-15T03:00:00.000Z')
+        from: z.number(),
+        to: z.number()
     })
 
-    const normalizedParams = {
-        from: new Date(request.query['range[from]']),
-        to: new Date(request.query['range[to]'])
-    }    
-
-    const { from, to } = fetchFlowByPeriodBodySchema.parse(normalizedParams)
-
-    if (!from || !to) {
-        return null
+    function hasRequestQuery(requestQuery: unknown): requestQuery is RequestQueryType {
+        return (requestQuery as RequestQueryType).rangeFrom !== undefined
+            && (requestQuery as RequestQueryType).rangeTo !== undefined
     }
 
-    try {
-        const fetchFlowByPeriod = makeFetchFlowByPeriod()
-        const flow = await fetchFlowByPeriod.execute({
-            from, to
+    if (hasRequestQuery(request.query)) {
+        const { from, to } = fetchFlowByPeriodBodySchema.parse({
+            from: Number(request.query.rangeFrom),
+            to: Number(request.query.rangeTo)
         })
 
-        return flow
-    } catch (err) {
-        console.log(err)
-    }
+        if (!from || !to) {
+            return null
+        }
 
-    return reply.status(200).send()
+        try {
+            const fetchFlowByPeriod = makeFetchFlowByPeriod()
+            const flow = await fetchFlowByPeriod.execute({
+                from, to
+            })
+    
+            return flow
+        } catch (err) {
+            console.log(err)
+        }
+    
+        return reply.status(200).send()
+    } else {
+        throw new Error('Invalid Period Parameters.')
+    }
 }

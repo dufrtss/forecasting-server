@@ -2,8 +2,8 @@ import { FlowRepository } from '@/repositories/flow-repository'
 import { Flow } from '@prisma/client'
 
 interface FetchFlowByPeriodUseCaseRequest {
-    from: Date
-    to: Date
+    from: number
+    to: number
 }
 
 interface FetchFlowByPeriodUseCaseResponse {

@@ -3,10 +3,11 @@ import { FlowRepository } from '../flow-repository'
 import { prisma } from '@/lib/prisma'
 
 export class PrismaFlowRepository implements FlowRepository {
-    async fetchByPeriod(from: Date, to: Date) {
+    async fetchByPeriod(from: number, to: number) {
+        console.log(from, to)
         const flow = await prisma.flow.findMany({
             where: {
-                date: {
+                timestamp: {
                     gte: from,
                     lte: to
                 }
@@ -20,14 +21,13 @@ export class PrismaFlowRepository implements FlowRepository {
         const jsonData = fs.readFileSync(filePath, 'utf-8')
         const flowData = JSON.parse(jsonData)
 
-        for (const flow of flowData) {
-            if(flow.flow !== 'NaN') {
+        for (const flow of flowData['logger-history']) {
+            if (flow && flow.value && flow.value !== 'NaN' && flow.value !== 'null' && flow.value !== 'Set to Bad') {
+                console.log(flow.value, flow.timestamp)
                 await prisma.flow.create({
                     data: {
-                        value: parseFloat(flow.flow),
-                        date: flow.date,
-                        confidenceInterval: flow.confidenceInterval,
-                        isForecasting: flow.isForecasting
+                        value: parseFloat(flow.value),
+                        timestamp: flow.timestamp / 1000
                     }
                 })
             }
