@@ -6,6 +6,7 @@ import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 import { usersRoutes } from './http/controllers/users/routes'
 import { flowRoutes } from './http/controllers/flow/routes'
+import { forecastingRoutes } from './http/controllers/forecasting/routes'
 
 export const app = fastify()
 
@@ -40,6 +41,7 @@ app.register(fastifyCookie)
 
 app.register(usersRoutes)
 app.register(flowRoutes)
+app.register(forecastingRoutes)
 
 app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {

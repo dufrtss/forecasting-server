@@ -48,3 +48,10 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/flow
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name fetch_forecasting_by_period
+GET {{baseUrl}}/forecasting
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
