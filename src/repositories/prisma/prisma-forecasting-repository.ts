@@ -10,6 +10,9 @@ export class PrismaForecastingRepository implements ForecastingRepository {
                     gte: from,
                     lte: to
                 }
+            },
+            orderBy: {
+                timestamp: 'desc'
             }
         })
 

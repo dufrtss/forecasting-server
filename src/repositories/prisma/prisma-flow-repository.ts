@@ -4,13 +4,15 @@ import { prisma } from '@/lib/prisma'
 
 export class PrismaFlowRepository implements FlowRepository {
     async fetchByPeriod(from: number, to: number) {
-        console.log(from, to)
         const flow = await prisma.flow.findMany({
             where: {
                 timestamp: {
                     gte: from,
                     lte: to
                 }
+            },
+            orderBy: {
+                timestamp: 'desc'
             }
         })
 
